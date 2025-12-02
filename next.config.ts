@@ -2,10 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  // Enable instrumentation for cron jobs (Windows server support)
-  experimental: {
-    instrumentationHook: true,
-  },
+  // Instrumentation is automatically enabled when instrumentation.ts exists
   // Ensure service worker is accessible
   async headers() {
     return [
