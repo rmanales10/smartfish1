@@ -252,26 +252,6 @@ export default function DashboardPage() {
     }
   }, [sensorData.temperature, sendHighTempSms]);
 
-  const interpretPHStatus = (ph: number | null) => {
-    if (ph === null || isNaN(ph) || ph < 0.0 || ph > 14.0)
-      return { status: 'No Data', color: 'gray' };
-    if (ph >= 6.5 && ph <= 8.0) return { status: 'SAFE', color: 'green' };
-    if (ph >= 4.1 && ph < 6.5) return { status: 'ACIDIC', color: 'orange' };
-    if (ph > 8.0) return { status: 'ALKALINE', color: 'orange' };
-    if (ph <= 4.0) return { status: 'DNG ACIDIC', color: 'red' };
-    return { status: 'UNKNOWN', color: 'gray' };
-  };
-
-  const interpretTemperatureStatus = (temp: number | null) => {
-    if (temp === null || isNaN(temp)) return { status: 'No Data', color: 'gray' };
-    if (temp >= 24 && temp <= 27) return { status: `${temp.toFixed(1)} °C`, color: 'green' };
-    if ((temp >= 22 && temp < 24) || (temp > 27 && temp <= 29))
-      return { status: `${temp.toFixed(1)} °C`, color: 'orange' };
-    return { status: `${temp.toFixed(1)} °C`, color: 'red' };
-  };
-
-  const phStatus = interpretPHStatus(sensorData.ph);
-  const tempStatus = interpretTemperatureStatus(sensorData.temperature);
 
 
 
@@ -305,56 +285,6 @@ export default function DashboardPage() {
           </p>
         </div>
       </header>
-
-      {/* Sensor Data Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-        {/* Water Temperature Card */}
-        <div className="bg-gradient-to-b from-white/6 to-white/2 border border-white/8 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base sm:text-lg font-semibold text-[#e6e9ef]">Water Temperature</h3>
-            <i className="fas fa-thermometer-half text-2xl text-blue-400"></i>
-          </div>
-          <div className="text-center">
-            <div className={`text-4xl sm:text-5xl font-bold mb-2 ${tempStatus.color === 'green' ? 'text-green-500' :
-              tempStatus.color === 'orange' ? 'text-orange-500' :
-                tempStatus.color === 'red' ? 'text-red-500' :
-                  'text-gray-500'
-              }`}>
-              {tempStatus.status}
-            </div>
-          </div>
-        </div>
-
-        {/* Water Quality Level Card */}
-        <div className="bg-gradient-to-b from-white/6 to-white/2 border border-white/8 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base sm:text-lg font-semibold text-[#e6e9ef]">Water Quality (pH)</h3>
-            <i className="fas fa-flask text-2xl text-purple-400"></i>
-          </div>
-          <div className="text-center">
-            {sensorData.ph !== null && !isNaN(sensorData.ph) ? (
-              <>
-                <div className={`text-4xl sm:text-5xl font-bold mb-2 ${phStatus.color === 'green' ? 'text-green-500' :
-                  phStatus.color === 'orange' ? 'text-orange-500' :
-                    phStatus.color === 'red' ? 'text-red-500' :
-                      'text-gray-500'
-                  }`}>
-                  {sensorData.ph.toFixed(2)}
-                </div>
-                <div className={`text-sm font-medium ${phStatus.color === 'green' ? 'text-green-400' :
-                  phStatus.color === 'orange' ? 'text-orange-400' :
-                    phStatus.color === 'red' ? 'text-red-400' :
-                      'text-gray-400'
-                  }`}>
-                  {phStatus.status}
-                </div>
-              </>
-            ) : (
-              <div className="text-4xl font-bold text-gray-500">No Data</div>
-            )}
-          </div>
-        </div>
-      </div>
 
       {/* Fish Detection Section - Directly on Dashboard */}
       <div className="mb-10">
